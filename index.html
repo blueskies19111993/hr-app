@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة الموظفين</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Add Cairo Arabic Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-container fade-in">
+            <div class="login-header">
+                <img src="https://cdn-icons-png.flaticon.com/512/2321/2321232.png" alt="شعار الشركة" class="logo">
+                <h1>بوابة الموظفين</h1>
+            </div>
+            <div class="form-container">
+                <div class="toggle-container">
+                    <button class="toggle-btn active" data-role="employee">موظف</button>
+                    <button class="toggle-btn" data-role="admin">مدير</button>
+                </div>
+                <form id="loginForm" class="login-form">
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="البريد الإلكتروني" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="كلمة المرور" required>
+                    </div>
+                    <button type="submit" class="login-btn">تسجيل الدخول</button>
+                </form>
+                <div class="forgot-password">
+                    <a href="#">نسيت كلمة المرور؟</a>
+                </div>
+                <div class="language-switch">
+                    <button onclick="toggleLanguage()" class="lang-btn">
+                        <i class="fas fa-globe"></i>
+                        <span id="langText">English</span>
+                    </button>
+                </div>
+                <div class="theme-switch">
+                    <button onclick="toggleTheme()" class="theme-btn">
+                        <i class="fas fa-moon"></i>
+                        <span id="themeText">الوضع الليلي</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

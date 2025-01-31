@@ -1,0 +1,421 @@
+/* Modern Theme - تصميم عصري وجذاب */
+:root {
+    --primary-gradient: linear-gradient(135deg, #2980b9, #2c3e50);
+    --secondary-gradient: linear-gradient(135deg, #3498db, #2980b9);
+    --success-gradient: linear-gradient(135deg, #27ae60, #2ecc71);
+    --warning-gradient: linear-gradient(135deg, #f39c12, #f1c40f);
+    --danger-gradient: linear-gradient(135deg, #e74c3c, #c0392b);
+    
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    
+    --background-light: #f8f9fa;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    --text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* تأثيرات حركية */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(30px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* تحسين القائمة الجانبية */
+.sidebar {
+    background: var(--primary-gradient);
+    box-shadow: var(--card-shadow);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.sidebar-header {
+    text-align: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-header img.logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    animation: float 6s ease-in-out infinite;
+}
+
+.nav-links li a {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+}
+
+.nav-links li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateX(-5px);
+}
+
+.nav-links li.active a {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-weight: bold;
+}
+
+.nav-links li a i {
+    margin-left: 1rem;
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+/* تحسين البطاقات والأقسام */
+.dashboard-section {
+    animation: fadeIn 0.5s ease-out;
+    padding: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+.stat-card:hover::before {
+    opacity: 0.05;
+}
+
+.stat-card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* تحسين الأزرار */
+.action-btn, .add-btn, .export-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: var(--card-shadow);
+}
+
+.action-btn:hover, .add-btn:hover, .export-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--hover-shadow);
+}
+
+.action-btn i, .add-btn i, .export-btn i {
+    font-size: 1rem;
+}
+
+.success-btn {
+    background: var(--success-gradient);
+}
+
+.warning-btn {
+    background: var(--warning-gradient);
+}
+
+.danger-btn {
+    background: var(--danger-gradient);
+}
+
+/* تحسين الجداول */
+.table-container {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.data-table th {
+    background: var(--background-light);
+    padding: 1rem 0.8rem;
+    font-weight: 600;
+    text-align: right;
+    color: var(--primary-color);
+}
+
+.data-table td {
+    padding: 0.8rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    vertical-align: middle;
+}
+
+.data-table tbody tr:hover td {
+    background: var(--background-light);
+}
+
+/* تحسين النماذج */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid #e1e1e1;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+}
+
+/* تحسين المؤشرات والشارات */
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-badge i {
+    font-size: 0.8rem;
+}
+
+.status-pending {
+    background: var(--warning-gradient);
+    color: white;
+}
+
+.status-approved {
+    background: var(--success-gradient);
+    color: white;
+}
+
+.status-rejected {
+    background: var(--danger-gradient);
+    color: white;
+}
+
+/* تحسين النوافذ المنبثقة */
+.modal {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--hover-shadow);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-header {
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 20px 20px 0 0;
+    padding: 1.5rem;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+/* تحسين لوحة المعلومات */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.quick-action-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: var(--card-shadow);
+}
+
+.quick-action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+.quick-action-card i {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    color: var(--primary-color);
+}
+
+/* تحسينات الرسوم البيانية */
+.chart-container {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 2rem;
+}
+
+/* تأثيرات إضافية للعناصر */
+.notification {
+    animation: slideIn 0.3s ease-out;
+}
+
+.loading-spinner {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* الوضع الليلي */
+.dark-mode {
+    --background-light: #2c3e50;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .stat-card,
+.dark-mode .table-container,
+.dark-mode .modal-content,
+.dark-mode .quick-action-card {
+    background: #34495e;
+    color: white;
+}
+
+.dark-mode .form-control {
+    background: #2c3e50;
+    border-color: #34495e;
+    color: white;
+}
+
+/* تحسينات للأجهزة المحمولة */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        right: -280px;
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        transition: right 0.3s ease;
+    }
+
+    .sidebar.active {
+        right: 0;
+    }
+
+    .dashboard-section {
+        padding: 1rem;
+    }
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* تحسينات للطباعة */
+@media print {
+    .sidebar,
+    .dashboard-header {
+        display: none;
+    }
+
+    .main-content {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.user-profile img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+}
+
+.user-info img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+}
+
+.action-buttons .action-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

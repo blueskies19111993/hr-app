@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المدير</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/admin-enhancements.css">
+    <link rel="stylesheet" href="css/modern-theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- مكتبات المخططات البيانية -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- مكتبات تصدير التقارير -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <!-- مكتبة QR Code -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    
+    <!-- مكتبة WebRTC -->
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    
+    <!-- مكتبة TOTP -->
+    <script src="https://cdn.jsdelivr.net/npm/otplib@12.0.1/dist/otplib-browser.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- القائمة الجانبية -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://cdn-icons-png.flaticon.com/512/2321/2321232.png" alt="شعار الشركة" class="logo">
+                <h2>لوحة تحكم المدير</h2>
+            </div>
+            <nav class="nav-links">
+                <ul>
+                    <li class="active">
+                        <a href="#dashboard">
+                            <i class="fas fa-chart-line"></i>
+                            <span>الرئيسية</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#employees">
+                            <i class="fas fa-users"></i>
+                            <span>إدارة الموظفين</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#departments">
+                            <i class="fas fa-building"></i>
+                            <span>الأقسام</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#request-types">
+                            <i class="fas fa-list-alt"></i>
+                            <span>أنواع الطلبات</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#requests">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>إدارة الطلبات</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#reports">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>التقارير والإحصائيات</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#archive">
+                            <i class="fas fa-archive"></i>
+                            <span>الأرشيف</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#audit-log">
+                            <i class="fas fa-history"></i>
+                            <span>سجل العمليات</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#chat">
+                            <i class="fas fa-comments"></i>
+                            <span>نظام المحادثات</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#automation">
+                            <i class="fas fa-robot"></i>
+                            <span>الأتمتة والقواعد</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#settings">
+                            <i class="fas fa-cog"></i>
+                            <span>الإعدادات</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <button class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المدير">
+                        <span>مرحباً، أحمد</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- لوحة المعلومات -->
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h2>نظرة عامة</h2>
+                    <div class="date-range">
+                        <i class="fas fa-calendar"></i>
+                        <span>آخر 30 يوم</span>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-clipboard-check"></i>
+                        <h3>إجمالي الطلبات</h3>
+                        <p class="stat-number">1,234</p>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            15%
+                        </span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>طلبات معلقة</h3>
+                        <p class="stat-number">45</p>
+                        <span class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            5%
+                        </span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>طلبات مكتملة</h3>
+                        <p class="stat-number">892</p>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            20%
+                        </span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <h3>المستخدمين النشطين</h3>
+                        <p class="stat-number">156</p>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            8%
+                        </span>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>تحليل الطلبات</h3>
+                        <canvas id="requestsChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>توزيع الطلبات حسب القسم</h3>
+                        <canvas id="departmentsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <div class="quick-action-card">
+                        <i class="fas fa-plus-circle"></i>
+                        <h3>إضافة طلب جديد</h3>
+                        <p>إنشاء طلب جديد في النظام</p>
+                    </div>
+                    <div class="quick-action-card">
+                        <i class="fas fa-file-export"></i>
+                        <h3>تصدير التقارير</h3>
+                        <p>تحميل تقارير بصيغ مختلفة</p>
+                    </div>
+                    <div class="quick-action-card">
+                        <i class="fas fa-user-plus"></i>
+                        <h3>إضافة مستخدم</h3>
+                        <p>إضافة مستخدم جديد للنظام</p>
+                    </div>
+                    <div class="quick-action-card">
+                        <i class="fas fa-cog"></i>
+                        <h3>إعدادات النظام</h3>
+                        <p>تعديل إعدادات النظام</p>
+                    </div>
+                </div>
+
+                <div class="recent-requests">
+                    <div class="section-header">
+                        <h3>آخر الطلبات</h3>
+                        <button class="action-btn">
+                            <i class="fas fa-eye"></i>
+                            عرض الكل
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>المستخدم</th>
+                                    <th>القسم</th>
+                                    <th>النوع</th>
+                                    <th>الحالة</th>
+                                    <th>التاريخ</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#12345</td>
+                                    <td>
+                                        <div class="user-info">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المستخدم">
+                                            <span>محمد أحمد</span>
+                                        </div>
+                                    </td>
+                                    <td>تقنية المعلومات</td>
+                                    <td>طلب خدمة</td>
+                                    <td>
+                                        <span class="status-badge status-pending">
+                                            <i class="fas fa-clock"></i>
+                                            قيد المعالجة
+                                        </span>
+                                    </td>
+                                    <td>2025/01/31</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn success-btn">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            <button class="action-btn warning-btn">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn danger-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- المزيد من الصفوف -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- قسم إدارة الموظفين -->
+            <section id="employees" class="dashboard-section">
+                <div class="section-header">
+                    <h2>إدارة الموظفين</h2>
+                    <button class="add-btn" onclick="showModal('addEmployee')">
+                        <i class="fas fa-plus"></i> إضافة موظف
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>البريد الإلكتروني</th>
+                                <th>القسم</th>
+                                <th>الحالة</th>
+                                <th>تاريخ الانضمام</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeesTableBody">
+                            <!-- سيتم ملء هذا الجزء ديناميكياً -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- قسم إدارة الأقسام -->
+            <section id="departments" class="dashboard-section">
+                <div class="section-header">
+                    <h2>إدارة الأقسام</h2>
+                    <button class="add-btn" onclick="showModal('addDepartment')">
+                        <i class="fas fa-plus"></i> إضافة قسم
+                    </button>
+                </div>
+                <div class="departments-grid" id="departmentsGrid">
+                    <!-- سيتم ملء هذا الجزء ديناميكياً -->
+                </div>
+            </section>
+
+            <!-- قسم أنواع الطلبات -->
+            <section id="request-types" class="dashboard-section">
+                <div class="section-header">
+                    <h2>إدارة أنواع الطلبات</h2>
+                    <button class="add-btn" onclick="showModal('addRequestType')">
+                        <i class="fas fa-plus"></i> إضافة نوع طلب
+                    </button>
+                </div>
+                <div class="request-types-container" id="requestTypesContainer">
+                    <!-- سيتم ملء هذا الجزء ديناميكياً -->
+                </div>
+            </section>
+
+            <!-- قسم إدارة الطلبات -->
+            <section id="requests" class="dashboard-section">
+                <div class="section-header">
+                    <h2>إدارة الطلبات</h2>
+                    <div class="filter-controls">
+                        <select id="requestStatusFilter">
+                            <option value="all">جميع الحالات</option>
+                            <option value="pending">معلق</option>
+                            <option value="approved">موافق عليه</option>
+                            <option value="rejected">مرفوض</option>
+                        </select>
+                        <select id="requestTypeFilter">
+                            <option value="all">جميع الأنواع</option>
+                            <!-- سيتم ملء هذا الجزء ديناميكياً -->
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>رقم الطلب</th>
+                                <th>نوع الطلب</th>
+                                <th>مقدم الطلب</th>
+                                <th>تاريخ التقديم</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestsTableBody">
+                            <!-- سيتم ملء هذا الجزء ديناميكياً -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- قسم التقارير والإحصائيات -->
+            <section id="reports" class="dashboard-section">
+                <div class="section-header">
+                    <h2>التقارير والإحصائيات</h2>
+                    <div class="report-controls">
+                        <select id="reportType">
+                            <option value="daily">تقرير يومي</option>
+                            <option value="weekly">تقرير أسبوعي</option>
+                            <option value="monthly">تقرير شهري</option>
+                            <option value="custom">تقرير مخصص</option>
+                        </select>
+                        <button class="export-btn" onclick="exportReport('pdf')">
+                            <i class="fas fa-file-pdf"></i> PDF
+                        </button>
+                        <button class="export-btn" onclick="exportReport('excel')">
+                            <i class="fas fa-file-excel"></i> Excel
+                        </button>
+                    </div>
+                </div>
+                <div class="reports-container">
+                    <div class="chart-container">
+                        <canvas id="requestsChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="departmentsChart"></canvas>
+                    </div>
+                    <div class="performance-metrics">
+                        <h3>مؤشرات الأداء</h3>
+                        <div class="metrics-grid" id="performanceMetrics">
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- قسم الأرشيف -->
+            <section id="archive" class="dashboard-section">
+                <div class="section-header">
+                    <h2>الأرشيف</h2>
+                    <div class="archive-controls">
+                        <input type="text" id="archiveSearch" placeholder="بحث في الأرشيف...">
+                        <button class="archive-btn" onclick="importArchive()">
+                            <i class="fas fa-file-import"></i> استيراد
+                        </button>
+                        <button class="archive-btn" onclick="exportArchive()">
+                            <i class="fas fa-file-export"></i> تصدير
+                        </button>
+                    </div>
+                </div>
+                <div class="archive-container">
+                    <div class="archive-filters">
+                        <h3>التصفية</h3>
+                        <div class="filter-group">
+                            <label>التاريخ</label>
+                            <input type="date" id="archiveStartDate">
+                            <input type="date" id="archiveEndDate">
+                        </div>
+                        <div class="filter-group">
+                            <label>نوع الطلب</label>
+                            <select id="archiveRequestType">
+                                <option value="all">الكل</option>
+                                <!-- سيتم ملؤها ديناميكياً -->
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>القسم</label>
+                            <select id="archiveDepartment">
+                                <option value="all">الكل</option>
+                                <!-- سيتم ملؤها ديناميكياً -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="archive-results" id="archiveResults">
+                        <!-- سيتم ملؤها ديناميكياً -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- قسم سجل العمليات -->
+            <section id="audit-log" class="dashboard-section">
+                <div class="section-header">
+                    <h2>سجل العمليات</h2>
+                    <div class="audit-controls">
+                        <select id="auditUserFilter">
+                            <option value="all">جميع المستخدمين</option>
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </select>
+                        <select id="auditActionFilter">
+                            <option value="all">جميع العمليات</option>
+                            <option value="create">إنشاء</option>
+                            <option value="update">تعديل</option>
+                            <option value="delete">حذف</option>
+                        </select>
+                        <button class="export-btn" onclick="exportAuditLog()">
+                            <i class="fas fa-download"></i> تصدير السجل
+                        </button>
+                    </div>
+                </div>
+                <div class="audit-log-container" id="auditLogContainer">
+                    <!-- سيتم ملؤها ديناميكياً -->
+                </div>
+            </section>
+
+            <!-- قسم نظام المحادثات -->
+            <section id="chat" class="dashboard-section">
+                <div class="chat-container">
+                    <div class="chat-sidebar">
+                        <div class="chat-search">
+                            <input type="text" placeholder="بحث عن محادثة...">
+                        </div>
+                        <div class="chat-list" id="chatList">
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </div>
+                    </div>
+                    <div class="chat-main">
+                        <div class="chat-header">
+                            <div class="chat-user-info">
+                                <img src="" alt="" class="chat-user-avatar">
+                                <span class="chat-user-name"></span>
+                            </div>
+                            <div class="chat-actions">
+                                <button onclick="startVideoCall()">
+                                    <i class="fas fa-video"></i>
+                                </button>
+                                <button onclick="shareDocument()">
+                                    <i class="fas fa-file-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chat-messages" id="chatMessages">
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </div>
+                        <div class="chat-input">
+                            <button onclick="attachFile()">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <input type="text" placeholder="اكتب رسالة...">
+                            <button onclick="sendMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- قسم الأتمتة والقواعد -->
+            <section id="automation" class="dashboard-section">
+                <div class="section-header">
+                    <h2>الأتمتة والقواعد</h2>
+                    <button class="add-btn" onclick="showModal('addAutomation')">
+                        <i class="fas fa-plus"></i> إضافة قاعدة جديدة
+                    </button>
+                </div>
+                <div class="automation-container">
+                    <div class="automation-rules" id="automationRules">
+                        <!-- سيتم ملؤها ديناميكياً -->
+                    </div>
+                    <div class="scheduled-tasks">
+                        <h3>المهام المجدولة</h3>
+                        <div class="task-list" id="scheduledTasks">
+                            <!-- سيتم ملؤها ديناميكياً -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- قسم الإعدادات -->
+            <section id="settings" class="dashboard-section">
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>إعدادات النظام</h3>
+                        <div class="setting-item">
+                            <label>الحد الأقصى لحجم المرفقات (ميجابايت)</label>
+                            <input type="number" id="maxAttachmentSize" min="1" max="50" value="2">
+                        </div>
+                        <div class="setting-item">
+                            <label>الحد الأقصى لعدد المرفقات</label>
+                            <input type="number" id="maxAttachments" min="1" max="20" value="5">
+                        </div>
+                        <div class="setting-item">
+                            <label>أنواع الملفات المسموح بها</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" checked> PDF</label>
+                                <label><input type="checkbox" checked> صور</label>
+                                <label><input type="checkbox" checked> مستندات Word</label>
+                                <label><input type="checkbox" checked> ملفات Excel</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-card">
+                        <h3>إعدادات الأمان</h3>
+                        <div class="setting-item">
+                            <label>التحقق الثنائي</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="enable2FA">
+                                <label for="enable2FA"></label>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>تشفير البيانات</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="enableEncryption" checked>
+                                <label for="enableEncryption"></label>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>مدة صلاحية الجلسة (دقائق)</label>
+                            <input type="number" id="sessionTimeout" min="5" max="180" value="30">
+                        </div>
+                    </div>
+                    <div class="settings-card">
+                        <h3>إعدادات الإشعارات</h3>
+                        <div class="setting-item">
+                            <label>قنوات الإشعارات</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" checked> البريد الإلكتروني</label>
+                                <label><input type="checkbox" checked> WhatsApp</label>
+                                <label><input type="checkbox"> SMS</label>
+                                <label><input type="checkbox" checked> إشعارات المتصفح</label>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>جدولة التقارير</label>
+                            <select id="reportSchedule">
+                                <option value="daily">يومياً</option>
+                                <option value="weekly">أسبوعياً</option>
+                                <option value="monthly">شهرياً</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="settings-card">
+                        <h3>تخصيص الواجهة</h3>
+                        <div class="setting-item">
+                            <label>النمط</label>
+                            <select id="themeSelect">
+                                <option value="light">فاتح</option>
+                                <option value="dark">داكن</option>
+                                <option value="auto">تلقائي</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>اللون الرئيسي</label>
+                            <input type="color" id="primaryColor" value="#2c3e50">
+                        </div>
+                        <div class="setting-item">
+                            <label>الشعار</label>
+                            <input type="file" id="logoUpload" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-actions">
+                    <button class="save-btn" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> حفظ الإعدادات
+                    </button>
+                    <button class="reset-btn" onclick="resetSettings()">
+                        <i class="fas fa-undo"></i> إعادة تعيين
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- النوافذ المنبثقة -->
+    <div id="modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <!-- سيتم ملء محتوى النافذة المنبثقة ديناميكياً -->
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/admin-enhancements.js"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://cdn-icons-png.flaticon.com/512/2321/2321232.png" alt="Company Logo" class="logo">
+                <h2>Employee Portal</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active">
+                    <a href="#"><i class="fas fa-home"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-file-alt"></i> My Requests</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-plus-circle"></i> New Request</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                </li>
+                <li class="logout">
+                    <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search requests...">
+                </div>
+                <div class="user-info">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Avatar" class="avatar">
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <div class="stat-info">
+                            <h3>Pending Requests</h3>
+                            <p>5</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="stat-info">
+                            <h3>Approved</h3>
+                            <p>12</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-times-circle"></i>
+                        <div class="stat-info">
+                            <h3>Rejected</h3>
+                            <p>3</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="new-request-card">
+                    <h2>تقديم طلب جديد</h2>
+                    <form id="requestForm" class="request-form">
+                        <div class="form-group">
+                            <label for="requestType">نوع الطلب</label>
+                            <select id="requestType" required onchange="toggleOtherRequestType()">
+                                <option value="">اختر نوع الطلب</option>
+                                <option value="service_continuation">استمرارية خدمة</option>
+                                <option value="surgery_fees">أجور عملية</option>
+                                <option value="marriage_support">تكافل زواج</option>
+                                <option value="birth_support">تكافل ولادة</option>
+                                <option value="death_support">تكافل وفاة</option>
+                                <option value="no_spouse_allowance">عدم استلام مخصصات زوجية</option>
+                                <option value="spouse_allowance">استلام مخصصات زوجية</option>
+                                <option value="travel_leave">طلب إجازة سفر</option>
+                                <option value="long_leave">طلب إجازة اعتيادية طويلة</option>
+                                <option value="bank_clearance">براءة ذمة مصرف</option>
+                                <option value="salary_transfer">توطين راتب</option>
+                                <option value="other">أخرى</option>
+                            </select>
+                        </div>
+
+                        <!-- حقل إضافي لنوع الطلب الآخر -->
+                        <div class="form-group" id="otherRequestTypeGroup" style="display: none;">
+                            <label for="otherRequestType">نوع الطلب (آخر)</label>
+                            <input type="text" id="otherRequestType" placeholder="يرجى تحديد نوع الطلب">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="requestTitle">عنوان الطلب</label>
+                            <input type="text" id="requestTitle" required placeholder="أدخل عنوان الطلب">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="requestDescription">تفاصيل الطلب</label>
+                            <textarea id="requestDescription" required placeholder="اكتب تفاصيل طلبك هنا"></textarea>
+                        </div>
+
+                        <!-- قسم المرفقات -->
+                        <div class="form-group attachments-section">
+                            <label>المرفقات (الحد الأقصى 5 مرفقات، 2 ميجابايت لكل مرفق)</label>
+                            <div class="attachments-container" id="attachmentsContainer">
+                                <div class="attachment-input">
+                                    <input type="file" 
+                                           class="file-input" 
+                                           accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" 
+                                           onchange="handleFileSelect(this)">
+                                    <button type="button" class="remove-attachment" onclick="removeAttachment(this)">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" class="add-attachment-btn" onclick="addAttachmentInput()">
+                                <i class="fas fa-plus"></i> إضافة مرفق
+                            </button>
+                            <div class="attachments-help">
+                                * يمكنك إرفاق ملفات PDF، صور، أو مستندات Word
+                                <br>
+                                * الحد الأقصى لحجم كل ملف 2 ميجابايت
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-paper-plane"></i>
+                                إرسال الطلب
+                            </button>
+                            <button type="button" class="draft-btn">
+                                <i class="fas fa-save"></i>
+                                حفظ كمسودة
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="recent-requests">
+                    <h2>Recent Requests</h2>
+                    <div class="request-list">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Request Title</th>
+                                    <th>Request Type</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Request items will be dynamically added here -->
+                                <tr>
+                                    <td>Request Title</td>
+                                    <td>Request Type</td>
+                                    <td>Status</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="request-status.html" class="btn btn-info" title="تتبع حالة الطلب">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <button class="btn btn-warning" title="تعديل الطلب">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger" title="حذف الطلب">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

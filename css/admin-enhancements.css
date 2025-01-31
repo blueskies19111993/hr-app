@@ -1,0 +1,306 @@
+/* تحسينات لوحة التحكم */
+
+/* التقارير والإحصائيات */
+.reports-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 20px;
+}
+
+.chart-container {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.performance-metrics {
+    grid-column: 1 / -1;
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* الأرشيف */
+.archive-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 20px;
+    margin: 20px;
+}
+
+.archive-filters {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filter-group {
+    margin-bottom: 15px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.archive-results {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* سجل العمليات */
+.audit-log-container {
+    margin: 20px;
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.audit-log-entry {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 15px;
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+}
+
+.audit-log-entry:last-child {
+    border-bottom: none;
+}
+
+/* نظام المحادثات */
+.chat-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    height: calc(100vh - 200px);
+    margin: 20px;
+    background: var(--card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.chat-sidebar {
+    border-left: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-search {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.chat-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.chat-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+.chat-input {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* الأتمتة والقواعد */
+.automation-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin: 20px;
+}
+
+.automation-rules {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.scheduled-tasks {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.task-list {
+    margin-top: 15px;
+}
+
+/* تحسينات الأزرار */
+.export-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: opacity 0.3s ease;
+}
+
+.export-btn:hover {
+    opacity: 0.9;
+}
+
+.archive-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    background: var(--secondary-color);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: opacity 0.3s ease;
+}
+
+.archive-btn:hover {
+    opacity: 0.9;
+}
+
+/* التبديل */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-switch label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.toggle-switch label:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    right: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.toggle-switch input:checked + label {
+    background-color: var(--success-color);
+}
+
+.toggle-switch input:checked + label:before {
+    transform: translateX(-26px);
+}
+
+/* الوضع الليلي */
+.dark-mode .chat-container,
+.dark-mode .chat-sidebar,
+.dark-mode .chat-main,
+.dark-mode .audit-log-container,
+.dark-mode .archive-filters,
+.dark-mode .archive-results,
+.dark-mode .automation-rules,
+.dark-mode .scheduled-tasks {
+    background: var(--dark-secondary);
+    border-color: var(--dark-border);
+}
+
+.dark-mode .chat-input input {
+    background: var(--dark-hover);
+    border-color: var(--dark-border);
+    color: var(--text-color);
+}
+
+/* التصميم المتجاوب */
+@media (max-width: 1200px) {
+    .reports-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .automation-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .archive-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .chat-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .chat-sidebar {
+        display: none;
+    }
+    
+    .chat-sidebar.active {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+    }
+}
