@@ -8,6 +8,18 @@ const translations = {
         'profile': 'الملف الشخصي',
         'logout': 'تسجيل الخروج',
         
+        // رسائل تسجيل الدخول
+        'login': 'تسجيل الدخول',
+        'email': 'البريد الإلكتروني',
+        'password': 'كلمة المرور',
+        'forgotPassword': 'نسيت كلمة المرور؟',
+        'invalidCredentials': 'بيانات الدخول غير صحيحة',
+        'loginSuccess': 'تم تسجيل الدخول بنجاح',
+        'loginError': 'حدث خطأ أثناء تسجيل الدخول',
+        'sessionExpired': 'انتهت صلاحية الجلسة، الرجاء تسجيل الدخول مرة أخرى',
+        'unauthorized': 'غير مصرح لك بالدخول',
+        'enterEmailPassword': 'الرجاء إدخال البريد الإلكتروني وكلمة المرور',
+        
         // الإحصائيات
         'pendingRequests': 'الطلبات المعلقة',
         'approved': 'تمت الموافقة',
@@ -50,6 +62,14 @@ const translations = {
         'darkMode': 'الوضع الليلي',
         'notifications': 'الإشعارات',
         
+        // رسائل النظام
+        'loading': 'جاري التحميل...',
+        'error': 'حدث خطأ',
+        'success': 'تمت العملية بنجاح',
+        'warning': 'تنبيه',
+        'offline': 'أنت غير متصل بالإنترنت',
+        'online': 'تم استعادة الاتصال بالإنترنت',
+        
         // الرسائل
         'successMessage': 'تمت العملية بنجاح',
         'errorMessage': 'حدث خطأ',
@@ -63,7 +83,6 @@ const translations = {
         
         // الملف الشخصي
         'personalInfo': 'المعلومات الشخصية',
-        'email': 'البريد الإلكتروني',
         'phone': 'رقم الهاتف',
         'department': 'القسم',
         'position': 'المنصب',
@@ -74,6 +93,7 @@ const translations = {
         'exportPDF': 'تصدير PDF',
         'exportExcel': 'تصدير Excel'
     },
+    
     en: {
         // Headers
         'employeePortal': 'Employee Portal',
@@ -82,6 +102,26 @@ const translations = {
         'newRequest': 'New Request',
         'profile': 'Profile',
         'logout': 'Logout',
+        
+        // Login Messages
+        'login': 'Login',
+        'email': 'Email',
+        'password': 'Password',
+        'forgotPassword': 'Forgot Password?',
+        'invalidCredentials': 'Invalid credentials',
+        'loginSuccess': 'Login successful',
+        'loginError': 'Login error occurred',
+        'sessionExpired': 'Session expired, please login again',
+        'unauthorized': 'Unauthorized access',
+        'enterEmailPassword': 'Please enter email and password',
+        
+        // System Messages
+        'loading': 'Loading...',
+        'error': 'Error',
+        'success': 'Success',
+        'warning': 'Warning',
+        'offline': 'You are offline',
+        'online': 'Connection restored',
         
         // Stats
         'pendingRequests': 'Pending Requests',
@@ -99,6 +139,53 @@ const translations = {
         'submit': 'Submit',
         'saveDraft': 'Save Draft',
         
-        // ... (remaining English translations)
+        // Attendance
+        'attendance': 'Attendance',
+        'checkIn': 'Check In',
+        'checkOut': 'Check Out',
+        
+        // Performance
+        'performance': 'Performance',
+        'goals': 'Goals',
+        'achievements': 'Achievements',
+        
+        // Tasks
+        'tasks': 'Tasks',
+        'newTask': 'New Task',
+        'inProgress': 'In Progress',
+        'completed': 'Completed',
+        
+        // Notifications
+        'notifications': 'Notifications',
+        'markAsRead': 'Mark as Read',
+        
+        // Settings
+        'settings': 'Settings',
+        'language': 'Language',
+        'darkMode': 'Dark Mode',
+        'notifications': 'Notifications',
+        
+        // Messages
+        'successMessage': 'Operation successful',
+        'errorMessage': 'Error occurred',
+        'confirmDelete': 'Are you sure you want to delete?',
+        
+        // Calendar
+        'calendar': 'Calendar',
+        'today': 'Today',
+        'month': 'Month',
+        'week': 'Week',
+        
+        // Profile
+        'personalInfo': 'Personal Info',
+        'phone': 'Phone',
+        'department': 'Department',
+        'position': 'Position',
+        
+        // Reports
+        'reports': 'Reports',
+        'generateReport': 'Generate Report',
+        'exportPDF': 'Export PDF',
+        'exportExcel': 'Export Excel'
     }
 };

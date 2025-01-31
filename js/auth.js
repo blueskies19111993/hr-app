@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLanguage);
     setTheme(isDarkMode);
     
+    // Check if user is already logged in
+    checkExistingSession();
+    
     // UI Elements
     const loginForm = document.getElementById('loginForm');
     const toggleBtns = document.querySelectorAll('.toggle-btn');
@@ -25,12 +28,22 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const email = document.getElementById('email').value;
+        const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
+
+        // Basic validation
+        if (!email || !password) {
+            showNotification('الرجاء إدخال البريد الإلكتروني وكلمة المرور', 'error');
+            return;
+        }
 
         try {
             showLoader();
             
+            // Get Supabase client from config
+            const supabase = getSupabaseClient();
+            
+            // Attempt login
             const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password
@@ -39,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (error) throw error;
 
             // Check user role in custom claims or user metadata
-            const { data: { role }, error: roleError } = await supabase
+            const { data: roleData, error: roleError } = await supabase
                 .from('user_roles')
                 .select('role')
                 .eq('user_id', data.user.id)
@@ -48,28 +61,52 @@ document.addEventListener('DOMContentLoaded', () => {
             if (roleError) throw roleError;
 
             // Verify if user has correct role
-            if (role !== currentRole) {
-                throw new Error(getTranslation('invalidCredentials'));
+            if (roleData.role !== currentRole) {
+                throw new Error('غير مصرح لك بالدخول بهذا الدور');
             }
 
-            // Save user preferences
-            localStorage.setItem('language', currentLanguage);
-            localStorage.setItem('darkMode', isDarkMode);
-
+            // Store session data
+            localStorage.setItem('userRole', roleData.role);
+            
             // Redirect based on role
-            if (role === 'admin') {
-                window.location.href = 'admin-dashboard.html';
-            } else {
-                window.location.href = 'employee-dashboard.html';
-            }
+            window.location.href = roleData.role === 'admin' 
+                ? 'admin-dashboard.html' 
+                : 'employee-dashboard.html';
 
         } catch (error) {
-            showNotification(error.message, 'error');
+            console.error('Login error:', error);
+            showNotification(error.message || 'حدث خطأ أثناء تسجيل الدخول', 'error');
         } finally {
             hideLoader();
         }
     });
 });
+
+// Check for existing session on page load
+async function checkExistingSession() {
+    try {
+        const supabase = getSupabaseClient();
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) throw error;
+        
+        if (session) {
+            const { data: roleData } = await supabase
+                .from('user_roles')
+                .select('role')
+                .eq('user_id', session.user.id)
+                .single();
+                
+            if (roleData) {
+                window.location.href = roleData.role === 'admin' 
+                    ? 'admin-dashboard.html' 
+                    : 'employee-dashboard.html';
+            }
+        }
+    } catch (error) {
+        console.error('Session check error:', error);
+    }
+}
 
 // Language toggle
 function toggleLanguage() {
@@ -138,14 +175,14 @@ function hideLoader() {
 // Show notification
 function showNotification(message, type) {
     const notification = document.createElement('div');
-    notification.className = `notification ${type} slide-in`;
+    notification.className = `notification ${type}`;
     notification.textContent = message;
     
     document.body.appendChild(notification);
     
+    // Remove notification after 3 seconds
     setTimeout(() => {
-        notification.classList.add('fade-out');
-        setTimeout(() => notification.remove(), 300);
+        notification.remove();
     }, 3000);
 }
 
@@ -158,18 +195,4 @@ function updateOnlineStatus() {
     if (!isOnline) {
         showNotification(getTranslation('offlineMessage'), 'warning');
     }
-}
-
-// Show notification function
-function showNotification(message, type) {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    
-    document.body.appendChild(notification);
-    
-    // Remove notification after 3 seconds
-    setTimeout(() => {
-        notification.remove();
-    }, 3000);
 }
